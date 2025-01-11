@@ -45,6 +45,21 @@ module.exports = {
         cy.get(module.exports.locators.css.forms.transactionForm.inpNote).type(note);
     },
 
+    checkIfTextExistsCss: (pathType, elementPath, expectedValue) => {
+        cy.log("Invoked checkIfTextExistsCss func......");
+        const elPathType = pathType.lowerCase();
+
+        if(elPathType === "xpath"){
+
+        }else if (elPathType === "css"){
+            cy.get(elementPath).should("be.visible").should("contain", expectedValue);
+        }else{
+            console.log("pathType........" + pathType);
+            throw new Error("Invalid path type");
+            
+        }
+        
+    },
 
     checkIfValueExistsCss: (elementPath, exepctedValue) => {
         cy.log("Invoked checkIfValueExistsCss func......");
@@ -70,11 +85,11 @@ module.exports = {
         cy.log("CLicking nav view......" + viewToClick);
 
         if(viewToClick === "Everyone"){
-            cy.get(navView.everyone).should("be.visible", viewToClick).scrollIntoView().click(); //Put in a custom command later (cyClickInputField)
+            cy.get(navView.everyone).should("be.visible").scrollIntoView().click(); //Put in a custom command later (cyClickInputField)
         }else if (viewToClick === "Friends"){
-            cy.get(navView.friends).should("be.visible", viewToClick).scrollIntoView().click();
+            cy.get(navView.friends).should("be.visible").scrollIntoView().click();
         }else if (viewToClick === "Mine"){
-            cy.get(navView.mine).should("be.visible", viewToClick).scrollIntoView().click();
+            cy.get(navView.mine).should("be.visible").scrollIntoView().click();
         }else{
             cy.log("Please define a correct view to click......");
         }

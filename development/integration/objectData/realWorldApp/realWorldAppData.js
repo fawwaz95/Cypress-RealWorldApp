@@ -6,7 +6,8 @@ module.exports = {
     simpleTransaction: {
         contact: "Ted Parisian",
         amount: 100,
-        note: "I owe money for Air force 1s"
+        note: "I owe money for Air force 1s",
+        elementPathCss: "p[class *='MuiTypography-body2']",
     },
     navView: {
         everyone: "Everyone",

@@ -18,6 +18,7 @@ describe("Real World App Transation tests......", () =>{
     it("Should check if the transaction was created", () => {
         cy.visit("/");
         realWAppPage.confirmCreatedTransaction(realWAppData.navView.mine);
+        realWAppPage.checkIfTextExistsCss(realWAppData.simpleTransaction.elementPathCss, realWAppData.simpleTransaction.note);
         cy.log("Pause.................");
         cy.pause();
     });
