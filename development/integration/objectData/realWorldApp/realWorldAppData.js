@@ -8,10 +8,6 @@ module.exports = {
         amount: 100,
         note: "I owe money for Air force 1s",
         elementPathCss: "p[class *='MuiTypography-body2']",
-    },
-    navView: {
-        everyone: "Everyone",
-        friends: "Friends",
-        mine: "Mine",
+        elementPathXpath: "//*[contains(text(),'Fawwaz Ahmad')]//ancestor::*[contains(@class,'MuiListItem-root')]//*[contains(@data-test,'transaction-amount')]",
     },
 }

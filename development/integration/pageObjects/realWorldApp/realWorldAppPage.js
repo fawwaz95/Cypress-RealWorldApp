@@ -45,20 +45,19 @@ module.exports = {
         cy.get(module.exports.locators.css.forms.transactionForm.inpNote).type(note);
     },
 
-    checkIfTextExistsCss: (pathType, elementPath, expectedValue) => {
+    checkIfTextExists: (pathType, elementPath, expectedValue) => {
         cy.log("Invoked checkIfTextExistsCss func......");
-        const elPathType = pathType.lowerCase();
+        const elPathType = pathType.toLowerCase();
 
         if(elPathType === "xpath"){
-
+            cy.log(`Checking value with xpath......${elementPath}`);
+            cy.xpath(elementPath).should("be.visible").should("contain", expectedValue);
         }else if (elPathType === "css"){
+            cy.log(`Checking value with css path......${elementPath}`);
             cy.get(elementPath).should("be.visible").should("contain", expectedValue);
         }else{
-            console.log("pathType........" + pathType);
-            throw new Error("Invalid path type");
-            
+            throw new Error(`Invalid path type ${pathType}`);
         }
-        
     },
 
     checkIfValueExistsCss: (elementPath, exepctedValue) => {

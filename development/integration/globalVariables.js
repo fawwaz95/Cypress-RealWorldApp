@@ -24,4 +24,15 @@ module.exports = {
             },
         },
     },
+    elementPathTypes: {
+        css: "css",
+        xpath: "xpath"
+    },
+    labels: {
+        topNavView: {
+            everyone: "Everyone",
+            friends: "Friends",
+            mine: "Mine",
+        },
+    },
 }

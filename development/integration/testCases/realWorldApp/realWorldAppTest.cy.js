@@ -1,6 +1,9 @@
 const loginPage = require("../../pageObjects/realWorldApp/realWorldAppLoginPage");
 const realWAppPage = require("../../pageObjects/realWorldApp/realWorldAppPage");
 const realWAppData = require("../../objectData/realWorldApp/realWorldAppData");
+const globalVar = require("../../globalVariables");
+const elementPaths  = globalVar.elementPathTypes;
+const topNavView = globalVar.labels.topNavView;
 
 describe("Real World App Transation tests......", () =>{
     beforeEach(() => {
@@ -17,8 +20,9 @@ describe("Real World App Transation tests......", () =>{
 
     it("Should check if the transaction was created", () => {
         cy.visit("/");
-        realWAppPage.confirmCreatedTransaction(realWAppData.navView.mine);
-        realWAppPage.checkIfTextExistsCss(realWAppData.simpleTransaction.elementPathCss, realWAppData.simpleTransaction.note);
+        realWAppPage.confirmCreatedTransaction(topNavView.mine);
+        realWAppPage.checkIfTextExists(elementPaths.xpath, realWAppData.simpleTransaction.elementPathXpath, realWAppData.simpleTransaction.amount);
+        realWAppPage.checkIfTextExists(elementPaths.css, realWAppData.simpleTransaction.elementPathCss, realWAppData.simpleTransaction.note);
         cy.log("Pause.................");
         cy.pause();
     });
