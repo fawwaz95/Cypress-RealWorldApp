@@ -3,6 +3,7 @@ const cssButtons  = globalVars.locators.css.buttons;
 const searchField = globalVars.locators.css.inpSearchField;
 const userList = globalVars.locators.css.contactList.userList;
 const navView = globalVars.locators.css.navView;
+const elementPathTypes = globalVars.elementPathTypes;
 
 module.exports = { 
     locators: {
@@ -36,13 +37,13 @@ module.exports = {
 
     searchForContact: (contactName) => {
         cy.log("Invoked searchForContact func......");
-        cy.get(searchField).type(contactName);
+        cy.cyFillInputField(searchField, contactName);
     },
 
     fillTransactionForm: (amount, note) => {
         cy.log("Invoked fillTransactionForm func......");
-        cy.get(module.exports.locators.css.forms.transactionForm.inpAmount).type(amount);
-        cy.get(module.exports.locators.css.forms.transactionForm.inpNote).type(note);
+        cy.cyFillInputField(module.exports.locators.css.forms.transactionForm.inpAmount, amount);
+        cy.cyFillInputField(module.exports.locators.css.forms.transactionForm.inpNote, note);
     },
 
     checkIfTextExists: (pathType, elementPath, expectedValue) => {
@@ -66,12 +67,10 @@ module.exports = {
     },
 
     clickNewBtn: () => {
-        cy.log("Invoked clickNewBtn func......");
-        cy.get(cssButtons.btNew).click();
+        cy.cyClick(cssButtons.btNew, elementPathTypes.css);
     },
 
     clickPayBtn: () => {
-        cy.log("Invoked clickPayBtn func......");
         cy.get(cssButtons.btPay).click();
     },
 
@@ -80,15 +79,13 @@ module.exports = {
     },
 
     clickNavBtn: (viewToClick) => {
-        cy.log("Invoked clickNavBtn func......");
-        cy.log("CLicking nav view......" + viewToClick);
 
         if(viewToClick === "Everyone"){
-            cy.get(navView.everyone).should("be.visible").scrollIntoView().click(); //Put in a custom command later (cyClickInputField)
+            cy.cyClick(navView.everyone, elementPathTypes.css);
         }else if (viewToClick === "Friends"){
-            cy.get(navView.friends).should("be.visible").scrollIntoView().click();
+            cy.cyClick(navView.friends, elementPathTypes.css);
         }else if (viewToClick === "Mine"){
-            cy.get(navView.mine).should("be.visible").scrollIntoView().click();
+            cy.cyClick(navView.mine, elementPathTypes.css);
         }else{
             cy.log("Please define a correct view to click......");
         }
