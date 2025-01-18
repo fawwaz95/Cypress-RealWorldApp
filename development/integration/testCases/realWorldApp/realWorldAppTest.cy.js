@@ -5,13 +5,13 @@ const globalVar = require("../../globalVariables");
 const elementPaths  = globalVar.elementPathTypes;
 const topNavView = globalVar.labels.topNavView;
 
-describe("Real World App Transation tests......", () =>{
-    beforeEach(() => {
+describe("Real World App Transation tests.....", () =>{
+    /*beforeEach(() => {
         cy.session("loginSession", () => {
             cy.visit("/");
             loginPage.loginToApp(realWAppData.simpleLoginInfo.username, realWAppData.simpleLoginInfo.password);
         });
-    });
+    });*/
 
     it("Should create a new transaction", () => {
         cy.visit("/");

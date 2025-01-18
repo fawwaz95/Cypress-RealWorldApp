@@ -1,16 +1,13 @@
 const globalVars = require("../../globalVariables");
+const buttons = globalVars.locators.css.buttons;
 const elementPathTypes = globalVars.elementPathTypes;
 
-module.exports = {
-    locators : {
-        css: {
-            loginForm: {
-                inpUsername: "#username",
-                inpPassword: "#password"
-            }
-        },
-    },
+const loginForm = {
+    inpUsername: "username",
+    inpPassword: "password",
+}
 
+module.exports = {
     loginToApp: (userName, password) => {
         module.exports.fillLoginInfo(userName, password);
         module.exports.clickSignInBtn();
@@ -21,11 +18,11 @@ module.exports = {
             cy.log("Please define a username and password.....");
             return false;
         }
-        cy.cyFillInputField(module.exports.locators.css.loginForm.inpUsername, userName);
-        cy.cyFillInputField(module.exports.locators.css.loginForm.inpPassword, password);
+        cy.cyFillInputFieldName(loginForm.inpUsername, userName);
+        cy.cyFillInputFieldName(loginForm.inpPassword, password);
     },
 
     clickSignInBtn: () => {
-        cy.cyClick(globalVars.locators.css.buttons.btSignin, elementPathTypes.css);
+        cy.cyClick(buttons.btSignin, elementPathTypes.css);
     },
 }
