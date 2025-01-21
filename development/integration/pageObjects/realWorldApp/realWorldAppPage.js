@@ -1,13 +1,22 @@
 const globalVars = require("../../globalVariables");
 const cssButtons  = globalVars.locators.css.buttons;
+const labelButtons = globalVars.labels.buttons;
 const searchField = globalVars.locators.css.inpSearchField;
 const userList = globalVars.locators.css.contactList.userList;
+const sideBarBtns = globalVars.sideBarBtns;
 const navView = globalVars.locators.css.navView;
 const elementPathTypes = globalVars.elementPathTypes;
 
 const transactionForm = {
     inpAmount: "amount",
     inpNote: "description"
+};
+
+const userSettingsForm = {
+    inpFirstName: "firstName",
+    inpLastName: "lastName",
+    inpEmail: "email",
+    inpPhoneNr: "phoneNumber",
 };
 
 module.exports = { 
@@ -20,8 +29,9 @@ module.exports = {
         module.exports.clickPayBtn();
     },
 
-    confirmCreatedTransaction: (clickView) => {
-        module.exports.clickNavBtn(clickView);
+    saveUserSettings: (userObj) => {
+        module.exports.fillUserSettingsForm(userObj);
+        module.exports.clickSaveBtn();
     },
     
     selectContact: (contactName) => {
@@ -38,7 +48,12 @@ module.exports = {
         cy.cyFillInputFieldName(transactionForm.inpNote, note);
     },
 
-
+    fillUserSettingsForm: (userInfoObj) => {
+        cy.cyFillInputFieldName(userSettingsForm.inpFirstName, userInfoObj.firstName, true);
+        cy.cyFillInputFieldName(userSettingsForm.inpLastName, userInfoObj.lastName, true);
+        cy.cyFillInputFieldName(userSettingsForm.inpEmail, userInfoObj.email, true);
+        cy.cyFillInputFieldName(userSettingsForm.inpPhoneNr, userInfoObj.phoneNr, true);
+    },
     clickNewBtn: () => {
         cy.cyClick(cssButtons.btNew, elementPathTypes.css);
     },
@@ -47,8 +62,12 @@ module.exports = {
         cy.cyClick(cssButtons.btPay, elementPathTypes.css);
     },
 
-    clickSideBarBtn: () => {
-        cy.log("Invoked clickSideBarBtn func......");
+    clickSideBarBtn: (sideBarName) => {
+        cy.cyClickSidebar(sideBarName);
+    },
+
+    clickSaveBtn: () => {
+        cy.cyClick(labelButtons.btSave, elementPathTypes.bt);
     },
 
     clickNavBtn: (viewToClick) => {

@@ -1,6 +1,3 @@
-
-// e2e.js
-
 // Import custom commands
 require('cypress-xpath');
 import './commands';
@@ -14,8 +11,8 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 });
 
 // Setup code to run before all tests
+// Global setup logic
 before(() => {
-    // Global setup logic
     cy.log('Starting E2E tests');
     const app = window.top;
     if (!app.document.head.querySelector("[data-hide-command-log-request]")) {
@@ -27,16 +24,22 @@ before(() => {
 });
 
 beforeEach(() => {
-    cy.log("Creating loginSession");
+    cy.log("Restoring loginSession");
     cy.session("loginSession", () => {
         cy.visit("/");
         loginPage.loginToApp(realWAppData.simpleLoginInfo.username, realWAppData.simpleLoginInfo.password);
+    }).then(() => {
+        cy.log("Session restored successfully");
+
+        cy.getCookies().then((cookies) => {
+            cy.log("Cookies:", cookies);
+        });
     });
-})
+});
 
 // Teardown code to run after all tests
+ // Global cleanup logic
 after(() => {
     cy.log("HELLOOOOOO AFTERRRRRRRRRRRRRRRRRR");
-    // Global cleanup logic
     cy.log('E2E tests completed');
 });

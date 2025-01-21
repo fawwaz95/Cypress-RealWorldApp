@@ -2,11 +2,11 @@ module.exports = {
     locators: {
         css: {
             sidebars: {
-                home: "[data-test='sidenav-home']",
-                myAccount: "[data-test='sidenav-user-settings']",
-                myAccountSettings: "[data-test='sidenav-bankaccounts']",
-                notifications:  "[data-test='sidenav-notification']",
-                logout:  "[data-test='sidenav-signout']",
+                home: "sidenav-home",
+                myAccount: "sidenav-user-settings",
+                myAccountSettings: "sidenav-bankaccounts",
+                notifications:  "sidenav-notification",
+                logout:  "sidenav-signout",
             },
             buttons: {
                 btSignin: "[data-test='signin-submit']",
@@ -26,7 +26,9 @@ module.exports = {
     },
     elementPathTypes: {
         css: "css",
-        xpath: "xpath"
+        xpath: "xpath",
+        id: "id",
+        bt: "button",
     },
     labels: {
         topNavView: {
@@ -34,5 +36,8 @@ module.exports = {
             friends: "Friends",
             mine: "Mine",
         },
+        buttons: {
+            btSave: "Save",
+        }
     },
 }

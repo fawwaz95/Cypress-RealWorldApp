@@ -6,7 +6,6 @@ module.exports = {
     chromeWebSecurity: false,
     specPattern: 'development/integration/testCases/**/*.cy.js',
     supportFile: 'support/e2e.js', 
-    //supportFile: 'support/index.js',
     experimentalSessionAndOrigin: true,
     exit: false, // Prevent Cypress from auto-closing
     setupNodeEvents(on, config) {

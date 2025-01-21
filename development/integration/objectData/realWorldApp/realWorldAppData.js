@@ -10,4 +10,8 @@ module.exports = {
         elementPathCss: "p[class *='MuiTypography-body2']",
         elementPathXpath: "//*[contains(text(),'Fawwaz Ahmad')]//ancestor::*[contains(@class,'MuiListItem-root')]//*[contains(@data-test,'transaction-amount')]",
     },
+    simpleUserSettings: {
+        email: "newEmail2@outlook.com",
+        phoneNr: "9051112221",
+    },
 }

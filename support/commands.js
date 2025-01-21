@@ -28,19 +28,21 @@ Cypress.Commands.add("cyFillInputFieldElPath", (locator, value) => {
 });
 
 //cyfillInputFieldName command to fill inputfield with a name
-Cypress.Commands.add("cyFillInputFieldName", (name, value) => {
+Cypress.Commands.add("cyFillInputFieldName", (name, value, clear) => {
 
     if(name === undefined || name === null || name === ""){
         throw new Error("Invalid name: A valid name must be provided.");
     }
 
     if(value === undefined || value === null || value === ""){
-        throw new Error("Invalid value: A valid value must be provided.");
+        cy.log(`No value provided for field '${name}'.....`);
+        return undefined;
     }
 
     const inpName = `input[name='${name}']`;
 
-    cy.get(inpName).should("be.visible").scrollIntoView().type(value);
+    clear ? 
+    cy.get(inpName).should("be.visible").scrollIntoView().clear().type(value) : cy.get(inpName).should("be.visible").scrollIntoView().type(value);
 
 })
 
@@ -60,10 +62,21 @@ Cypress.Commands.add("cyClick", (locator, locatorType) => {
         case "id":
             cy.get(locator).should("be.visible").scrollIntoView().click();
             break;
-        case "bt":
-            cy.get(`button[title='${locator}']`).should("be.visible").scrollIntoView().click();
+        case "button":
+            cy.contains(locator).should("be.visible").scrollIntoView().click();
+            //cy.get(`button[title='${locator}']`).should("be.visible").scrollIntoView().click();
             break;
         default:
-            throw new Error(`Unsupported locatorType: '${locatorType}'. Please use 'css', 'xpath', or 'bt'.`);
+            throw new Error(`Unsupported locatorType: '${locatorType}'. Please use 'css', 'xpath', 'bt' or 'id'.`);
     }
+})
+
+Cypress.Commands.add("cyClickSidebar", (value) => {
+
+    if(value === undefined || value === null || value === ""){
+        throw new Error("Invalid value: A valid value must be provided.");
+    }
+    
+    const selSidebar = `[data-test='${value}']`;
+    cy.get(selSidebar).should("be.visible").scrollIntoView().click();
 })

@@ -2,6 +2,8 @@ const loginPage = require("../../pageObjects/realWorldApp/realWorldAppLoginPage"
 const realWAppPage = require("../../pageObjects/realWorldApp/realWorldAppPage");
 const realWAppData = require("../../objectData/realWorldApp/realWorldAppData");
 const globalVar = require("../../globalVariables");
+const realWorldAppData = require("../../objectData/realWorldApp/realWorldAppData");
+const sideBarBtns = globalVar.locators.css.sidebars;
 const elementPaths  = globalVar.elementPathTypes;
 const topNavView = globalVar.labels.topNavView;
 
@@ -20,12 +22,26 @@ describe("Real World App Transation tests.....", () =>{
 
     it("Should check if the transaction was created", () => {
         cy.visit("/");
-        realWAppPage.confirmCreatedTransaction(topNavView.mine);
+        realWAppPage.clickNavBtn(topNavView.mine);
         realWAppPage.checkIfTextExists(elementPaths.xpath, realWAppData.simpleTransaction.elementPathXpath, realWAppData.simpleTransaction.amount);
         realWAppPage.checkIfTextExists(elementPaths.css, realWAppData.simpleTransaction.elementPathCss, realWAppData.simpleTransaction.note);
-        cy.log("Pause.................");
-        cy.pause();
     });
 
 });
+
+describe("Fill in User Information within User Settings", () => {
+    it("Should fill in user settings form", () => {
+        cy.visit("/");
+                // Debugging logs and intercepts
+                //cy.intercept('**/*').as('allRequests');
+                //cy.wait('@allRequests');
+        
+                //cy.get('body').should('be.visible'); // Ensure the page is loaded
+
+        realWAppPage.clickSideBarBtn(sideBarBtns.myAccount);
+        realWAppPage.saveUserSettings(realWAppData.simpleUserSettings);
+        cy.log("Pause.................");
+        cy.pause();
+    });
+})
 
