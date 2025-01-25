@@ -14,4 +14,10 @@ module.exports = {
         email: "newEmail2@outlook.com",
         phoneNr: "9051112221",
     },
+    simpleBankAccount: {
+        bankName: "CIBC Bank",
+        routingNum: "111111111", 
+        accountNum: "2222222222",
+        elementPathXpath: "//*[(text()='CIBC Bank')]"
+    },
 }

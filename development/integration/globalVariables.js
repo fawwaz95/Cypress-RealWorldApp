@@ -4,7 +4,7 @@ module.exports = {
             sidebars: {
                 home: "sidenav-home",
                 myAccount: "sidenav-user-settings",
-                myAccountSettings: "sidenav-bankaccounts",
+                bankAccounts: "sidenav-bankaccounts",
                 notifications:  "sidenav-notification",
                 logout:  "sidenav-signout",
             },
@@ -38,6 +38,8 @@ module.exports = {
         },
         buttons: {
             btSave: "Save",
+            btCreate: "Create",
+            btDelete: "Delete",
         }
     },
 }

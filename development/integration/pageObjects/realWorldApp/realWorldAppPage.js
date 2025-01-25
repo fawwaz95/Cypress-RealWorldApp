@@ -19,6 +19,12 @@ const userSettingsForm = {
     inpPhoneNr: "phoneNumber",
 };
 
+const bankAccountForm = {
+    inpBankName: "bankName",
+    inpRoutingNum: "routingNumber",
+    inpAccNum: "accountNumber",
+};
+
 module.exports = { 
     createSimpleTransaction: (contactName, amount, note) => {
         cy.log("Invoked createSimpleTransaction func.....");
@@ -27,6 +33,12 @@ module.exports = {
         module.exports.selectContact(contactName);
         module.exports.fillTransactionForm(amount, note);
         module.exports.clickPayBtn();
+    },
+
+    createSimpleBankAccount: (bankInfoObj) => {
+        module.exports.clickCreateBtn();
+        module.exports.fillBankForm(bankInfoObj);
+        module.exports.clickSaveBtn();
     },
 
     saveUserSettings: (userObj) => {
@@ -43,17 +55,33 @@ module.exports = {
         cy.cyFillInputFieldElPath(searchField, contactName);
     },
 
+    fillBankForm(bankInfo){
+        cy.cyFillInputFieldName(bankAccountForm.inpBankName, bankInfo.bankName);
+        cy.cyFillInputFieldName(bankAccountForm.inpRoutingNum, bankInfo.routingNum);
+        cy.cyFillInputFieldName(bankAccountForm.inpAccNum, bankInfo.accountNum);
+    },
+
     fillTransactionForm: (amount, note) => {
         cy.cyFillInputFieldName(transactionForm.inpAmount, amount);
         cy.cyFillInputFieldName(transactionForm.inpNote, note);
     },
 
     fillUserSettingsForm: (userInfoObj) => {
-        cy.cyFillInputFieldName(userSettingsForm.inpFirstName, userInfoObj.firstName, true);
-        cy.cyFillInputFieldName(userSettingsForm.inpLastName, userInfoObj.lastName, true);
-        cy.cyFillInputFieldName(userSettingsForm.inpEmail, userInfoObj.email, true);
-        cy.cyFillInputFieldName(userSettingsForm.inpPhoneNr, userInfoObj.phoneNr, true);
+        cy.cyFillInputFieldName(userSettingsForm.inpFirstName, userInfoObj.firstName);
+        cy.cyFillInputFieldName(userSettingsForm.inpLastName, userInfoObj.lastName);
+        cy.cyFillInputFieldName(userSettingsForm.inpEmail, userInfoObj.email);
+        cy.cyFillInputFieldName(userSettingsForm.inpPhoneNr, userInfoObj.phoneNr);
     },
+
+    deleteBankAccount: (bankName) => {
+        const delBankAcc = `//*[(text()='${bankName}')]/parent::*/parent::*//*[contains(text(),'${labelButtons.btDelete}')]`;
+        cy.cyClick(delBankAcc, elementPathTypes.xpath);
+    },
+
+    clickCreateBtn: () => {
+        cy.cyClick(labelButtons.btCreate, elementPathTypes.bt);
+    },
+
     clickNewBtn: () => {
         cy.cyClick(cssButtons.btNew, elementPathTypes.css);
     },

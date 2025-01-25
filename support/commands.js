@@ -3,6 +3,7 @@ require('cypress-xpath')
 
 //cyFillInputField command to fill inputfield with either xpath or css path
 Cypress.Commands.add("cyFillInputFieldElPath", (locator, value) => {
+    cy.log(`cyFillInputFieldElPath params {} => locator: ${locator} value:${value}`);
 
     if (!locator || typeof locator !== "string") {
         throw new Error("Invalid locator: A valid string locator must be provided.");
@@ -28,7 +29,8 @@ Cypress.Commands.add("cyFillInputFieldElPath", (locator, value) => {
 });
 
 //cyfillInputFieldName command to fill inputfield with a name
-Cypress.Commands.add("cyFillInputFieldName", (name, value, clear) => {
+Cypress.Commands.add("cyFillInputFieldName", (name, value) => {
+    cy.log(`cyFillInputFieldName params {} => name: ${name} value:${value}`);
 
     if(name === undefined || name === null || name === ""){
         throw new Error("Invalid name: A valid name must be provided.");
@@ -41,13 +43,14 @@ Cypress.Commands.add("cyFillInputFieldName", (name, value, clear) => {
 
     const inpName = `input[name='${name}']`;
 
-    clear ? 
-    cy.get(inpName).should("be.visible").scrollIntoView().clear().type(value) : cy.get(inpName).should("be.visible").scrollIntoView().type(value);
+    cy.get(inpName).should("be.visible").scrollIntoView().clear().type(value);
 
 })
 
 //cyClick command to click an element on the screen using css/xpath/id/button title
 Cypress.Commands.add("cyClick", (locator, locatorType) => {
+    cy.log(`cyClick params {} => locator: ${locator} locatorType:${locatorType}`);
+
     if (!locator || typeof locator !== "string") {
         throw new Error("Invalid locator: A valid string locator must be provided.");
     }
@@ -57,7 +60,7 @@ Cypress.Commands.add("cyClick", (locator, locatorType) => {
             cy.get(locator).should("be.visible").scrollIntoView().click();
             break;
         case "xpath":
-            cy.xpath(locator).should("be.visible").scrollIntoView().click();
+            cy.xpath(locator).should("be.visible").first().scrollIntoView().click();
             break;
         case "id":
             cy.get(locator).should("be.visible").scrollIntoView().click();
@@ -73,7 +76,10 @@ Cypress.Commands.add("cyClick", (locator, locatorType) => {
 
 Cypress.Commands.add("cyClickSidebar", (value) => {
 
+    cy.log(`cyClickSidebar params {} => type: ${typeof value} value:${value}`);
+
     if(value === undefined || value === null || value === ""){
+        cy.log(`cyClickSidebar 222params {} => type: ${typeof value} value:${value}`);
         throw new Error("Invalid value: A valid value must be provided.");
     }
     

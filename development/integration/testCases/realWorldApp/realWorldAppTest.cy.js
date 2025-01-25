@@ -35,13 +35,30 @@ describe("Fill in User Information within User Settings", () => {
                 // Debugging logs and intercepts
                 //cy.intercept('**/*').as('allRequests');
                 //cy.wait('@allRequests');
-        
                 //cy.get('body').should('be.visible'); // Ensure the page is loaded
 
         realWAppPage.clickSideBarBtn(sideBarBtns.myAccount);
         realWAppPage.saveUserSettings(realWAppData.simpleUserSettings);
-        cy.log("Pause.................");
-        cy.pause();
+    });
+})
+
+describe("Create a new Bank account", () => {
+    it("Should create a new Bank account", () => {
+        cy.visit("/");
+        realWAppPage.clickSideBarBtn(sideBarBtns.bankAccounts);
+        realWAppPage.createSimpleBankAccount(realWAppData.simpleBankAccount);
+    });
+
+    it("Should check if the Bank account was created", () => {
+        cy.visit("/");
+        realWAppPage.clickSideBarBtn(sideBarBtns.bankAccounts);
+        realWAppPage.checkIfTextExists(elementPaths.xpath, realWAppData.simpleBankAccount.elementPathXpath, realWAppData.simpleBankAccount.bankName);
+    });
+
+    it("Should delete the created Bank account", () => {
+        cy.visit("/");
+        realWAppPage.clickSideBarBtn(sideBarBtns.bankAccounts);
+        realWAppPage.deleteBankAccount(realWAppData.simpleBankAccount.bankName);
     });
 })
 

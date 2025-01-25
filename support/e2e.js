@@ -7,6 +7,7 @@ const realWAppData = require("../development/integration/objectData/realWorldApp
 // Cypress event for handling uncaught exceptions
 Cypress.on('uncaught:exception', (err, runnable) => {
     // returning false here prevents Cypress from failing the test
+    cy.log(`Uncaught exception: ${err}`);
     return false;
 });
 
