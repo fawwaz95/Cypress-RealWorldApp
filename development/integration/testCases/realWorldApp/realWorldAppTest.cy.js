@@ -32,11 +32,6 @@ describe("Real World App Transation tests.....", () =>{
 describe("Fill in User Information within User Settings", () => {
     it("Should fill in user settings form", () => {
         cy.visit("/");
-                // Debugging logs and intercepts
-                //cy.intercept('**/*').as('allRequests');
-                //cy.wait('@allRequests');
-                //cy.get('body').should('be.visible'); // Ensure the page is loaded
-
         realWAppPage.clickSideBarBtn(sideBarBtns.myAccount);
         realWAppPage.saveUserSettings(realWAppData.simpleUserSettings);
     });

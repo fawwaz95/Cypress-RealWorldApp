@@ -57,16 +57,16 @@ Cypress.Commands.add("cyClick", (locator, locatorType) => {
 
     switch(locatorType.toLowerCase()){
         case "css": 
-            cy.get(locator).should("be.visible").scrollIntoView().click();
+            cy.get(locator).should("be.visible").first().scrollIntoView().click({ force: true });
             break;
         case "xpath":
-            cy.xpath(locator).should("be.visible").first().scrollIntoView().click();
+            cy.xpath(locator).should("be.visible").first().scrollIntoView().click({ force: true });
             break;
         case "id":
-            cy.get(locator).should("be.visible").scrollIntoView().click();
+            cy.get(locator).should("be.visible").first().scrollIntoView().click({ force: true });
             break;
         case "button":
-            cy.contains(locator).should("be.visible").scrollIntoView().click();
+            cy.contains(locator).should("be.visible").first().scrollIntoView().click({ force: true });
             //cy.get(`button[title='${locator}']`).should("be.visible").scrollIntoView().click();
             break;
         default:
@@ -79,7 +79,7 @@ Cypress.Commands.add("cyClickSidebar", (value) => {
     cy.log(`cyClickSidebar params {} => type: ${typeof value} value:${value}`);
 
     if(value === undefined || value === null || value === ""){
-        cy.log(`cyClickSidebar 222params {} => type: ${typeof value} value:${value}`);
+        cy.log(`cyClickSidebar params {} => type: ${typeof value} value:${value}`);
         throw new Error("Invalid value: A valid value must be provided.");
     }
     
