@@ -67,7 +67,7 @@ Cypress.Commands.add("cyClick", (locator, locatorType) => {
             break;
         case "button":
             cy.contains(locator).should("be.visible").first().scrollIntoView().click({ force: true });
-            //cy.get(`button[title='${locator}']`).should("be.visible").scrollIntoView().click();
+            // cy.get(`button[title='${locator}']`).should("be.visible").scrollIntoView().click();
             break;
         default:
             throw new Error(`Unsupported locatorType: '${locatorType}'. Please use 'css', 'xpath', 'bt' or 'id'.`);
