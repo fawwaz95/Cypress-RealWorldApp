@@ -40,6 +40,7 @@ module.exports = {
             btSave: "Save",
             btCreate: "Create",
             btDelete: "Delete",
+            btDateAll: "Date: ALL",
         }
     },
 }

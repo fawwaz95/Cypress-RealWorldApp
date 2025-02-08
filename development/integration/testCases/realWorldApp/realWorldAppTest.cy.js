@@ -57,3 +57,12 @@ describe("Create a new Bank account", () => {
     });
 })
 
+describe("Check if the Latest transaction exist under 'MINE'", () => {
+    it("Should successfully go to the Home page, click 'MINE', select valid date range, confirm latest transaction", () => {
+        cy.visit("/");
+        realWAppPage.clickSideBarBtn(sideBarBtns.home);
+        realWAppPage.clickNavBtn(topNavView.mine);
+        realWAppPage.selectDate("2025-01-01", "2025-02-08");
+    });
+})
+

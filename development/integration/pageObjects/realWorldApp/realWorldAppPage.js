@@ -45,6 +45,11 @@ module.exports = {
         module.exports.fillUserSettingsForm(userObj);
         module.exports.clickSaveBtn();
     },
+
+    selectDate: (selDateFrom, selDateTo) => {
+        module.exports.clickDateAllBtn();
+        cy.cyClickDate(selDateFrom, selDateTo);
+    },
     
     selectContact: (contactName) => {
         const selContactName = `//*[contains(text(),'${contactName}')]`;
@@ -77,6 +82,10 @@ module.exports = {
         const delBankAcc = `//*[(text()='${bankName}')]/parent::*/parent::*//*[contains(text(),'${labelButtons.btDelete}')]`;
         //cy.cyClick(delBankAcc, elementPathTypes.xpath);
         cy.xpath(delBankAcc).first().scrollIntoView().click(); //Need to use this command because delete button isnt visible its at the bottom of the page if scrolled
+    },
+
+    clickDateAllBtn: () => {
+        cy.cyClick(labelButtons.btDateAll, elementPathTypes.bt);
     },
 
     clickCreateBtn: () => {
