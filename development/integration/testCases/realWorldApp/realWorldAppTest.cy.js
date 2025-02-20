@@ -8,14 +8,7 @@ const elementPaths  = globalVar.elementPathTypes;
 const topNavView = globalVar.labels.topNavView;
 
 describe("Real World App Transation tests.....", () =>{
-    /*beforeEach(() => {
-        cy.session("loginSession", () => {
-            cy.visit("/");
-            loginPage.loginToApp(realWAppData.simpleLoginInfo.username, realWAppData.simpleLoginInfo.password);
-        });
-    });*/
-
-    it("Should create a new transaction", () => {
+   it("Should create a new transaction", () => {
         cy.visit("/");
         realWAppPage.createSimpleTransaction(realWAppData.simpleTransaction.contact, realWAppData.simpleTransaction.amount, realWAppData.simpleTransaction.note);
     });
@@ -62,7 +55,10 @@ describe("Check if the Latest transaction exist under 'MINE'", () => {
         cy.visit("/");
         realWAppPage.clickSideBarBtn(sideBarBtns.home);
         realWAppPage.clickNavBtn(topNavView.mine);
-        realWAppPage.selectDate("2025-01-01", "2025-02-08");
+        realWAppPage.selectDate(realWAppData.simpleDates.from, realWAppData.simpleDates.to);
+        realWAppPage.checkIfTextExists(globalVar.elementPathTypes.xpath,
+                                       realWAppData.simpleDates.latestTransactionElPath,
+                                       realWAppData.simpleDates.latestTransactionExpVal);
     });
 })
 

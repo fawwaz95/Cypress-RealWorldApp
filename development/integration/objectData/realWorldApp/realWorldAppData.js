@@ -20,4 +20,10 @@ module.exports = {
         accountNum: "2222222222",
         elementPathXpath: "//*[(text()='CIBC Bank')]"
     },
+    simpleDates: {
+        from: "2025-01-01",
+        to: "2025-02-08",
+        latestTransactionElPath: "//*[contains(@data-test, 'transaction-amount')]",
+        latestTransactionExpVal: "$100.00"
+    }
 }
