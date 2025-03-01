@@ -51,7 +51,7 @@ Cypress.Commands.add("cyFillInputFieldName", (name, value) => {
 
 })
 
-//cyClick command to click an element on the screen using css/xpath/id/button title
+//cyClick command to click an element on the screen using css/xpath/id/button
 Cypress.Commands.add("cyClick", (locator, locatorType) => {
     cy.log(`cyClick params {} => locator: ${locator} locatorType:${locatorType}`);
 
