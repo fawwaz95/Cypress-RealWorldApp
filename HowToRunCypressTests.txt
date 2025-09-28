@@ -1,0 +1,3 @@
+How to run cypress tests
+
+npx cypress run --spec "C:/Users/admin/Documents/PersonalProjects/Testing/cypress/ui-testing/development/integration/testCases/realWorldApp/realWorldAppTest.cy.js"
