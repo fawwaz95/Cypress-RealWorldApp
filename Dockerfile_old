@@ -1,0 +1,17 @@
+# Use official Cypress image with Node.js and Chrome
+FROM cypress/included:12.17.1
+
+# Set base working directory
+WORKDIR /app
+
+# Copy project files into container
+COPY . .
+
+# Change working directory to ui-testing
+WORKDIR /app/ui-testing
+
+# Install dependencies inside ui-testing
+RUN npm install
+
+# Run Cypress tests
+CMD ["npx", "cypress", "run"]

@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    working_dir: /app/cypress-realworld-app
+    command: yarn dev --host 0.0.0.0
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - appnet
+
+  cypress:
+    build:
+      context: .
+      dockerfile: Dockerfile.cypress
+    depends_on:
+      - web
+    networks:
+      - appnet
+    environment:
+      - CYPRESS_baseUrl=http://web:3000
+    volumes:
+      - ./ui-testing/results:/app/ui-testing/results  # save results locally
+      - ./ui-testing/videos:/app/ui-testing/videos    # Cypress videos
+      - ./ui-testing/screenshots:/app/ui-testing/screenshots
+
+networks:
+  appnet:
+    driver: bridge

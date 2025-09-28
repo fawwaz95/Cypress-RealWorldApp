@@ -1,0 +1,12 @@
+FROM cypress/included:12.17.1
+
+WORKDIR /app/ui-testing
+COPY ui-testing/ .
+COPY wait-and-run.sh .
+
+RUN npm install
+RUN npm install -g wait-on
+
+RUN chmod +x wait-and-run.sh
+
+ENTRYPOINT ["./wait-and-run.sh"]
