@@ -1,30 +1,61 @@
 pipeline {
   agent any
 
+  environment {
+    DOCKER_NETWORK = "appnet"
+  }
+
   stages {
-    stage('Checkout') {
+    stage('Build Web App Image') {
       steps {
-        checkout scm
+        script {
+          docker.build("my-web-app", "-f Dockerfile.web .")
+        }
       }
     }
 
-    stage('Run Cypress Tests') {
+    stage('Build Cypress Test Image') {
       steps {
-        sh 'docker-compose up --abort-on-container-exit --build'
+        script {
+          docker.build("my-cypress-tests", "-f Dockerfile.cypress .")
+        }
       }
     }
 
-    stage('Collect Results') {
+    stage('Run Tests') {
       steps {
-        junit 'ui-testing/results/test-results.xml'
+        script {
+          // Create the network if not exists
+          sh "docker network inspect ${DOCKER_NETWORK} >/dev/null 2>&1 || docker network create ${DOCKER_NETWORK}"
+
+          // Run web service in background
+          sh """
+            docker run -d --rm \
+              --name web \
+              --network ${DOCKER_NETWORK} \
+              -p 3000:3000 \
+              my-web-app
+          """
+
+          // Run Cypress tests (waits for web:3000)
+          sh """
+            docker run --rm \
+              --network ${DOCKER_NETWORK} \
+              -e CYPRESS_baseUrl=http://web:3000 \
+              my-cypress-tests
+          """
+        }
       }
     }
   }
 
   post {
     always {
-      archiveArtifacts artifacts: 'ui-testing/videos/**/*, ui-testing/screenshots/**/*', allowEmptyArchive: true
-      sh 'docker-compose down -v'
+      script {
+        // Cleanup containers + network
+        sh "docker rm -f web || true"
+        sh "docker network rm ${DOCKER_NETWORK} || true"
+      }
     }
   }
 }
