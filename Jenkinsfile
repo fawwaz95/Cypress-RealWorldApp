@@ -33,7 +33,6 @@ pipeline {
             docker run -d --rm \
               --name web \
               --network ${DOCKER_NETWORK} \
-              -p 3000:3000 \
               my-web-app
           """
 
