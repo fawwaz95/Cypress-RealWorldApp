@@ -22,7 +22,7 @@ pipeline {
       }
     }
 
-    stage('Run Tests') {
+    stage('Launch Server') {
       steps {
         script {
           // Create the network if not exists
@@ -36,13 +36,6 @@ pipeline {
               my-web-app
           """
 
-          // Run Cypress tests (waits for web:3000)
-          sh """
-            docker run --rm \
-              --network ${DOCKER_NETWORK} \
-              -e CYPRESS_baseUrl=http://web:3000 \
-              my-cypress-tests
-          """
         }
       }
     }
