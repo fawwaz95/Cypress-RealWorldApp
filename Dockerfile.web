@@ -7,4 +7,4 @@ WORKDIR /app/cypress-realworld-app
 RUN yarn install
 
 EXPOSE 3000
-CMD ["yarn", "dev"]
+CMD ["yarn", "start:react"]

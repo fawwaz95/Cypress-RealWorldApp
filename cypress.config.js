@@ -2,7 +2,7 @@
 
 module.exports = {
   e2e: {
-    baseUrl: "http://localhost:3000/signin",
+	baseUrl: process.env.CYPRESS_baseUrl || 'http://localhost:3000', //http://localhost:3000/signin
     chromeWebSecurity: false,
     specPattern: 'development/integration/testCases/**/*.cy.js',
     supportFile: 'support/e2e.js', 
