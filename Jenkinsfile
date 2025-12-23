@@ -72,4 +72,5 @@ pipeline {
       sh 'docker network rm appnet || true'
     }
   }
+ }
 }
