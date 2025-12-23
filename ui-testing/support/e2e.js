@@ -25,18 +25,21 @@ before(() => {
 });
 
 beforeEach(() => {
-    cy.log("Restoring loginSession");
     cy.session("loginSession", () => {
-        cy.visit("/");
-        loginPage.loginToApp(realWAppData.simpleLoginInfo.username, realWAppData.simpleLoginInfo.password);
-    }).then(() => {
-        cy.log("Session restored successfully");
+        cy.visit("/signin");
 
+        loginPage.loginToApp(
+            realWAppData.simpleLoginInfo.username,
+            realWAppData.simpleLoginInfo.password
+        );
+
+        cy.url().should("not.include", "/signin");
         cy.getCookies().then((cookies) => {
-            cy.log("Cookies:", cookies);
+            cy.log("Cookies after login:", cookies);
         });
     });
 });
+  
 
 // Teardown code to run after all tests
  // Global cleanup logic
