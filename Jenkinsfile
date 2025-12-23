@@ -3,75 +3,72 @@ pipeline {
 
   environment {
     DOCKER_NETWORK = "appnet"
-    WEB_IMAGE = "my-web-app"
-    CYPRESS_IMAGE = "my-cypress-tests"
   }
 
   stages {
 
     stage('Build Web App Image') {
       steps {
-        script {
-          docker.build(WEB_IMAGE, "-f Dockerfile.web .")
-        }
+        sh 'docker build -t my-web-app -f Dockerfile.web .'
       }
     }
 
     stage('Build Cypress Image') {
       steps {
-        script {
-          docker.build(CYPRESS_IMAGE, "-f Dockerfile.cypress .")
-        }
+        sh 'docker build -t my-cypress-tests -f Dockerfile.cypress .'
       }
     }
 
     stage('Create Docker Network') {
       steps {
-        sh """
-          docker network inspect ${DOCKER_NETWORK} >/dev/null 2>&1 \
-          || docker network create ${DOCKER_NETWORK}
-        """
+        sh 'docker network inspect appnet >/dev/null 2>&1 || docker network create appnet'
       }
     }
 
     stage('Launch Web Server') {
       steps {
-        sh """
+        sh '''
           docker run -d --rm \
             --name web \
-            --network ${DOCKER_NETWORK} \
-            ${WEB_IMAGE}
-        """
+            --network appnet \
+            my-web-app
+        '''
       }
     }
 
-    stage('Wait for Web App') {
+    stage('Wait for Web Port') {
       steps {
-        sh """
+        sh '''
           docker run --rm \
-            --network ${DOCKER_NETWORK} \
-            curlimages/curl:8.6.0 \
-            sh -c 'until curl -s http://web:3000 > /dev/null; do echo "Waiting for web..."; sleep 5; done'
-        """
+            --network appnet \
+            busybox \
+            sh -c '
+              for i in $(seq 1 30); do
+                nc -z web 3000 && exit 0
+                sleep 5
+              done
+              exit 1
+            '
+        '''
       }
     }
 
     stage('Run Cypress Tests') {
       steps {
-        sh """
+        sh '''
           docker run --rm \
-            --network ${DOCKER_NETWORK} \
+            --network appnet \
             -e CYPRESS_baseUrl=http://web:3000 \
-            ${CYPRESS_IMAGE}
-        """
+            my-cypress-tests
+        '''
       }
     }
   }
 
   post {
     always {
-      sh "docker rm -f web || true"
-      sh "docker network rm ${DOCKER_NETWORK} || true"
+      sh 'docker rm -f web || true'
+      sh 'docker network rm appnet || true'
     }
   }
 }
