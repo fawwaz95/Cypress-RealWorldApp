@@ -53,18 +53,19 @@ pipeline {
       }
     }
 
-	stage('Run Cypress Tests') {
-	  steps {
-		sh '''
-		  docker run --rm \
-			--network appnet \
-			-e CYPRESS_baseUrl=http://web:3000 \
-			-e API_URL=http://web:3001 \
-			my-cypress-tests
-		'''
-	  }
-	}
+    stage('Run Cypress Tests') {
+      steps {
+        sh '''
+          docker run --rm \
+            --network appnet \
+            -e CYPRESS_baseUrl=http://web:3000 \
+            -e API_URL=http://web:3001 \
+            my-cypress-tests
+        '''
+      }
+    }
 
+  }
 
   post {
     always {
@@ -72,5 +73,5 @@ pipeline {
       sh 'docker network rm appnet || true'
     }
   }
- }
+
 }
