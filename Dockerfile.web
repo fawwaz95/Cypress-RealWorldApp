@@ -6,5 +6,6 @@ COPY cypress-realworld-app/ .
 WORKDIR /app/cypress-realworld-app
 RUN yarn install
 
-EXPOSE 3000
-CMD ["yarn", "start:react"]
+EXPOSE 3000 3001
+
+CMD ["yarn", "dev"]
