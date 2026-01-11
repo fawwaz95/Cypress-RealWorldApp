@@ -116,6 +116,10 @@ app.use("/bankTransfers", bankTransferRoutes);
 
 app.use(express.static(join(__dirname, "../public")));
 
+app.get("/health", (_req, res) => {
+  res.status(200).send("ok");
+});
+
 getBackendPort().then((port) => {
   app.listen(port);
 });

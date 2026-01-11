@@ -3,25 +3,27 @@ pipeline {
 
   environment {
     DOCKER_NETWORK = "appnet"
+    WEB_IMAGE = "my-web-app"
+    CYPRESS_IMAGE = "my-cypress-tests"
   }
 
   stages {
 
     stage('Build Web App Image') {
       steps {
-        sh 'docker build -t my-web-app -f Dockerfile.web .'
+        sh 'docker build -t $WEB_IMAGE -f Dockerfile.web .'
       }
     }
 
     stage('Build Cypress Image') {
       steps {
-        sh 'docker build -t my-cypress-tests -f Dockerfile.cypress .'
+        sh 'docker build -t $CYPRESS_IMAGE -f Dockerfile.cypress .'
       }
     }
 
     stage('Create Docker Network') {
       steps {
-        sh 'docker network inspect appnet >/dev/null 2>&1 || docker network create appnet'
+        sh 'docker network inspect $DOCKER_NETWORK >/dev/null 2>&1 || docker network create $DOCKER_NETWORK'
       }
     }
 
@@ -30,50 +32,52 @@ pipeline {
         sh '''
           docker run -d --rm \
             --name web \
-            --network appnet \
-            my-web-app
+            --network $DOCKER_NETWORK \
+            $WEB_IMAGE
         '''
       }
     }
 
-    stage('Wait for Web Port') {
+    stage('Wait for Backend Health') {
       steps {
         sh '''
           docker run --rm \
-            --network appnet \
-            busybox \
+            --network $DOCKER_NETWORK \
+            curlimages/curl:8.6.0 \
             sh -c '
               for i in $(seq 1 30); do
-                nc -z web 3000 && exit 0
+                curl -sf http://web:3001/health && exit 0
+                echo "Waiting for backend..."
                 sleep 5
               done
+              echo "Backend never became ready"
               exit 1
             '
         '''
       }
     }
 
-	stage('Run Cypress Tests') {
-	  steps {
-		sh '''
-		  docker run --rm \
-			--network appnet \
-			-e CYPRESS_baseUrl=http://web:3000 \
-			-e API_URL=http://web:3001 \
-			my-cypress-tests \
-			sh -c "npm install -g wait-on && wait-on http://web:3000 http://web:3001 && cypress run"
-		'''
-	  }
-	}
-
-
+    stage('Run Cypress Tests') {
+      steps {
+		 sh '''
+			  docker run --rm \
+				--network appnet \
+				-e CYPRESS_baseUrl=http://web:3000 \
+				-e CYPRESS_apiUrl=http://web:3001 \
+				my-cypress-tests \
+				sh -c "
+				  npx wait-on http://web:3001/health &&
+				  npx cypress run
+				"
+			'''
+      }
+    }
   }
 
   post {
     always {
       sh 'docker rm -f web || true'
-      sh 'docker network rm appnet || true'
+      sh 'docker network rm $DOCKER_NETWORK || true'
     }
   }
-
 }

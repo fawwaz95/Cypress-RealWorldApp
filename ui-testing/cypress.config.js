@@ -2,9 +2,9 @@
 
 module.exports = {
   e2e: {
-	baseUrl: process.env.CYPRESS_baseUrl || 'http://localhost:3000', //http://localhost:3000/signin
-	env: {
-     apiUrl: process.env.API_URL || 'http://localhost:3001',
+    baseUrl: process.env.CYPRESS_baseUrl || "http://localhost:3000",
+    env: {
+      apiUrl: process.env.CYPRESS_apiUrl || "http://localhost:3001"
     },
     chromeWebSecurity: false,
     specPattern: 'development/integration/testCases/**/*.cy.js',

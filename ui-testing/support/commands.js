@@ -2,6 +2,17 @@ require('cypress-xpath')
 const globalVars = require("../development/integration/globalVariables.js");
 const elementPathTypes = globalVars.elementPathTypes;
 
+Cypress.Commands.add("apiRequest", (options) => {
+    const apiUrl = Cypress.env("apiUrl");
+  
+    return cy.request({
+      url: `${apiUrl}${options.url}`,
+      method: options.method || "GET",
+      body: options.body,
+      headers: options.headers,
+      failOnStatusCode: false
+    });
+});
 
 //cyFillInputField command to fill inputfield with either xpath or css path
 Cypress.Commands.add("cyFillInputFieldElPath", (locator, value) => {
