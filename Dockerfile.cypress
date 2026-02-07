@@ -6,4 +6,4 @@ COPY ui-testing/ .
 RUN npm install
 
 
-ENTRYPOINT ["npx", "cypress", "run"] 
+ENTRYPOINT ["./wait-and-run.sh"]
