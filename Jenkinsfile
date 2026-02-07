@@ -59,16 +59,13 @@ pipeline {
 
     stage('Run Cypress Tests') {
       steps {
-		 sh '''
+		sh '''
 			  docker run --rm \
 				--network appnet \
 				-e CYPRESS_baseUrl=http://web:3000 \
 				-e CYPRESS_apiUrl=http://web:3001 \
 				my-cypress-tests \
-				sh -c "
-				  npx wait-on http://web:3001/health &&
-				  npx cypress run
-				"
+				sh -c 'npx wait-on http://web:3001/health && npx cypress run'
 			'''
       }
     }
