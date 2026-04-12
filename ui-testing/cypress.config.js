@@ -7,9 +7,8 @@ module.exports = {
       apiUrl: process.env.CYPRESS_apiUrl || "http://localhost:3001"
     },
     chromeWebSecurity: false,
-    specPattern: 'development/integration/testCases/**/*.cy.js',
+    specPattern: 'development/integration/testCases/realWorldApp/**/*.cy.js',
     supportFile: 'support/e2e.js', 
-    experimentalSessionAndOrigin: true,
     exit: false, // Prevent Cypress from auto-closing
     setupNodeEvents(on, config) {
       // Optional: Add plugins or event listeners here

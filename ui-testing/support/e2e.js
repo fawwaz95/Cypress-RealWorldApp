@@ -18,31 +18,39 @@ before(() => {
     const app = window.top;
     if (!app.document.head.querySelector("[data-hide-command-log-request]")) {
         const style = app.document.createElement("style");
-        style.innerHTML =".command-name-request, .command-name-xhr { display: none }";
+        style.innerHTML = ".command-name-request, .command-name-xhr { display: none }";
         style.setAttribute("data-hide-command-log-request", "");
-        app.document.head.appendChild(style); 
+        app.document.head.appendChild(style);
     }
 });
 
 beforeEach(() => {
-    cy.session("loginSession", () => {
+    cy.session(
+      "loginSession",
+      () => {
         cy.visit("/signin");
-
-        loginPage.loginToApp(
-            realWAppData.simpleLoginInfo.username,
-            realWAppData.simpleLoginInfo.password
-        );
-
-        cy.url().should("not.include", "/signin");
-        cy.getCookies().then((cookies) => {
-            cy.log("Cookies after login:", cookies);
-        });
-    });
-});
   
+        loginPage.loginToApp(
+          realWAppData.simpleLoginInfo.username,
+          realWAppData.simpleLoginInfo.password
+        );
+  
+        cy.url().should("not.include", "/signin");
+      },
+      {
+        validate() {
+          cy.visit("/");
+          cy.url().should("not.include", "/signin");
+        }
+      }
+    );
+  
+    cy.visit("/");
+});
+
 
 // Teardown code to run after all tests
- // Global cleanup logic
+// Global cleanup logic
 after(() => {
     cy.log("HELLOOOOOO AFTERRRRRRRRRRRRRRRRRR");
     cy.log('E2E tests completed');

@@ -64,7 +64,7 @@ pipeline {
 			--network appnet \
 			-e CYPRESS_baseUrl=http://web:3000 \
 			-e CYPRESS_apiUrl=http://web:3001 \
-			my-cypress-tests
+			$CYPRESS_IMAGE
 		'''
 	  }
 	}
