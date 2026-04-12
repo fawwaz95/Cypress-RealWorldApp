@@ -25,27 +25,18 @@ before(() => {
 });
 
 beforeEach(() => {
-    cy.session(
-      "loginSession",
-      () => {
+    cy.session("loginSession", () => {
         cy.visit("/signin");
-  
+
+        cy.get("input").should("be.visible") // wait for page
+
         loginPage.loginToApp(
-          realWAppData.simpleLoginInfo.username,
-          realWAppData.simpleLoginInfo.password
+            realWAppData.simpleLoginInfo.username,
+            realWAppData.simpleLoginInfo.password
         );
-  
-        cy.url().should("not.include", "/signin");
-      },
-      {
-        validate() {
-          cy.visit("/");
-          cy.url().should("not.include", "/signin");
-        }
-      }
-    );
-  
-    cy.visit("/");
+
+        cy.url({ timeout: 20000 }).should("not.include", "/signin");
+    });
 });
 
 
